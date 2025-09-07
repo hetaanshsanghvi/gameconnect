@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load catalog_extras %}
+{% block content %}
+<div class="row">
+	<div class="col-md-8">
+		{% if game.thumbnail %}
+		<img src="{{ game.thumbnail.url }}" class="img-fluid rounded mb-3 game-hero" alt="{{ game.title }}" />
+		{% endif %}
+		<h2 class="heading-glow">{{ game.title }}</h2>
+		<p class="text-muted">Category: {{ game.category }}</p>
+		<p>{{ game.description }}</p>
+		{% if game.tags %}
+		<p>
+			<strong>Tags:</strong>
+			{% for tag in game.tags|split_by:',' %}
+				{% if tag %}<span class="badge text-bg-secondary">{{ tag }}</span>{% endif %}
+			{% endfor %}
+		</p>
+		{% endif %}
+	</div>
+	<div class="col-md-4">
+		<div class="d-grid gap-2 sticky-top" style="top: 90px;">
+			<a href="{{ game.external_url }}" target="_blank" class="btn btn-neon btn-lg">Play Now</a>
+			{% if user.is_authenticated %}
+				<form action="{% url 'catalog:toggle_favorite' game.id %}" method="post">
+					{% csrf_token %}
+					<button class="btn {% if is_favorite %}btn-danger{% else %}btn-outline-light{% endif %}">
+						{% if is_favorite %}Remove from Favorites{% else %}Add to Favorites{% endif %}
+					</button>
+				</form>
+			{% else %}
+				<a href="/accounts/login/?next={% url 'catalog:game_detail' game.id %}" class="btn btn-outline-light">Login to add to favorites</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+

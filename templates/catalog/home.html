@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-3 heading-glow">Discover Games</h1>
+
+<form class="row g-2 mb-4" method="get">
+	<div class="col-md-6">
+		<input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search by title, description, tags..." />
+	</div>
+	<div class="col-md-3">
+		<select name="category" class="form-select">
+			<option value="">All Categories</option>
+			{% for c in categories %}
+			<option value="{{ c.id }}" {% if selected_category == c.id %}selected{% endif %}>{{ c.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="col-md-2">
+		<select name="sort" class="form-select">
+			<option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+		</select>
+	</div>
+	<div class="col-md-1 d-grid">
+		<button class="btn btn-primary" type="submit">Search</button>
+	</div>
+</form>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+	{% for game in games %}
+	<div class="col">
+		<div class="card h-100 game-card">
+			{% if game.thumbnail %}
+			<img src="{{ game.thumbnail.url }}" class="card-img-top game-thumb" alt="{{ game.title }}" />
+			{% endif %}
+			<div class="card-body d-flex flex-column">
+				<h5 class="card-title">{{ game.title }}</h5>
+				<p class="card-text text-muted">{{ game.description|truncatechars:120 }}</p>
+				<div class="mt-auto d-flex gap-2">
+					<a href="{% url 'catalog:game_detail' game.id %}" class="btn btn-neon">View Details</a>
+					<a href="{{ game.external_url }}" target="_blank" class="btn btn-outline-light">Play</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+	<p>No games found.</p>
+	{% endfor %}
+</div>
+{% endblock %}
+
+

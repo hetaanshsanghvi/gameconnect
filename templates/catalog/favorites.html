@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="heading-glow">My Favorites</h2>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+	{% for fav in favorites %}
+	<div class="col">
+		<div class="card h-100 game-card">
+			{% if fav.game.thumbnail %}
+			<img src="{{ fav.game.thumbnail.url }}" class="card-img-top game-thumb" alt="{{ fav.game.title }}" />
+			{% endif %}
+			<div class="card-body d-flex flex-column">
+				<h5 class="card-title">{{ fav.game.title }}</h5>
+				<p class="card-text text-muted">{{ fav.game.description|truncatechars:120 }}</p>
+				<div class="mt-auto d-flex gap-2">
+					<a href="{% url 'catalog:game_detail' fav.game.id %}" class="btn btn-neon">View Details</a>
+					<a href="{{ fav.game.external_url }}" target="_blank" class="btn btn-outline-light">Play</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+	<p>You have no favorites yet.</p>
+	{% endfor %}
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,254 @@
+Project Title
+
+GameHub Connect – Online Game Directory & Bookmarking Platform
+
+Concept Overview
+
+GameHub Connect is not a game hosting platform but an online game discovery and redirection hub.
+It will:
+
+Aggregate game details from various online sources.
+
+Provide game descriptions, screenshots, categories, and tags.
+
+Allow users to log in/register.
+
+Enable users to bookmark/favorite games for later.
+
+Redirect users to external websites to play the games.
+
+Core Features
+1. Game Catalog
+
+Game cards with:
+
+Game title
+
+Thumbnail image
+
+Short description (max 2–3 lines)
+
+Category & tags
+
+"View Details" button
+
+2. Game Details Page
+
+Large banner image or video
+
+Full description (fetched from the internet or manually entered)
+
+Developer/Publisher info (optional)
+
+Release date (optional)
+
+Category, tags
+
+Play Now button → opens the external game link in a new tab
+
+Add to Favorites (for logged-in users)
+
+3. User Authentication
+
+Register with:
+
+Username
+
+Email
+
+Password
+
+Login/Logout system
+
+Profile management (change password, email, avatar)
+
+Store & retrieve user’s favorite games
+
+4. Favorites System
+
+Users can save/un-save games to their favorites list.
+
+Accessible from the user dashboard.
+
+5. Search & Filters
+
+Search by title
+
+Filter by category/tags
+
+Sort by newest, most popular, etc.
+
+6. Admin Panel
+
+Add, edit, delete games
+
+Manage categories & tags
+
+Manage users (optional)
+
+View analytics (optional)
+
+Functional Flow
+
+Visitor Mode:
+
+Visit homepage → See game catalog.
+
+Search/filter → Click a game card → View details page.
+
+Click “Play Now” → Redirect to the external game site.
+
+Logged-In User Mode:
+
+Register/Login.
+
+Browse games → Click “Add to Favorites” on game detail page.
+
+Go to Profile/Dashboard → See favorites list.
+
+Click on a favorite game → Play now / remove from favorites.
+
+Admin Mode:
+
+Login as admin.
+
+Go to admin dashboard.
+
+Add new games with:
+
+Title
+
+Description
+
+Thumbnail
+
+Category & tags
+
+External game URL
+
+Save → Game appears in catalog.
+
+Pages & Layout
+1. Home Page
+
+Header:
+
+Logo
+
+Navigation (Home, Categories, Favorites, Login/Register)
+
+Search bar
+
+Game catalog grid (cards)
+
+Footer with links & about info
+
+2. Game Details Page
+
+Banner image
+
+Title + Category
+
+Description
+
+Tags
+
+Play Now button
+
+Add to Favorites (if logged in)
+
+3. Login & Register Pages
+
+Simple form
+
+Redirect to homepage after login
+
+4. Favorites Page
+
+List of all games added to favorites
+
+Remove from favorites option
+
+5. Admin Dashboard
+
+CRUD operations for games
+
+Manage categories & tags
+
+Database Structure
+Tables
+users
+Field	Type	Description
+id	INT PK	Unique user ID
+username	VARCHAR(50)	Username
+email	VARCHAR(100)	User email
+password	VARCHAR(255)	Hashed password
+is_admin	BOOLEAN	Admin flag
+created_at	TIMESTAMP	Registration date
+games
+Field	Type	Description
+id	INT PK	Unique game ID
+title	VARCHAR(100)	Game title
+description	TEXT	Game description
+thumbnail	VARCHAR(255)	Image URL
+category_id	INT FK	Links to categories table
+tags	VARCHAR(255)	Comma-separated tags
+external_url	VARCHAR(255)	Play link
+created_at	TIMESTAMP	Added date
+categories
+Field	Type	Description
+id	INT PK	Unique ID
+name	VARCHAR(50)	Category name
+favorites
+Field	Type	Description
+id	INT PK	Unique ID
+user_id	INT FK	User who favorited
+game_id	INT FK	Game added to favorites
+Tech Stack Recommendation
+
+Frontend:
+
+HTML, CSS, JavaScript
+
+Bootstrap/Tailwind CSS
+
+(Optional) React or Vue for better UI/UX
+
+Backend:
+
+Django (Python) or Node.js (Express)
+
+REST API for fetching games & favorites
+
+Database:
+
+PostgreSQL / MySQL
+
+Authentication:
+
+Django auth or JWT tokens
+
+Hosting:
+
+Backend: Render / Railway / AWS
+
+Frontend: Vercel / Netlify
+
+Database: Supabase / ElephantSQL
+
+Extra Features (Optional)
+
+Game ratings & reviews
+
+Recently viewed games
+
+Recommendations based on favorites
+
+API integration to auto-fetch game details
+
+Social login (Google/Facebook)
+
+Mobile-friendly responsive design
+
+If you want, I can also give you a “developer-ready” step-by-step build order so the AI can implement this from scratch without any guesswork — including exact Django models, views, templates, and routes.
+That will make this literally plug-and-play.

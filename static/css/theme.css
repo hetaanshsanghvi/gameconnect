@@ -1,0 +1,67 @@
+:root {
+	--bg-900: #0b0f1a;
+	--bg-800: #0f1526;
+	--text-100: #e6f1ff;
+	--muted: #8aa0c2;
+	--neon: #00e5ff;
+	--neon-2: #8a2be2;
+	--card: #121a2b;
+	--border: #22304d;
+}
+
+html, body {
+	background: radial-gradient(1200px 600px at 20% -10%, rgba(138,43,226,0.12), transparent),
+				radial-gradient(1000px 600px at 120% 10%, rgba(0,229,255,0.10), transparent),
+				var(--bg-900);
+	color: var(--text-100);
+	font-family: 'Rubik', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.logo-text { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+
+.neon-navbar {
+	background: linear-gradient(90deg, rgba(10,14,25,0.9), rgba(18,26,43,0.9));
+	border-bottom: 1px solid var(--border);
+	box-shadow: 0 0 20px rgba(0,229,255,0.08);
+}
+
+.nav-glow .nav-link { color: var(--muted); transition: color .2s ease, text-shadow .2s ease; }
+.nav-glow .nav-link:hover, .nav-glow .nav-link:focus { color: var(--text-100); text-shadow: 0 0 6px rgba(0,229,255,0.7); }
+.user-pill { color: var(--muted); }
+
+.heading-glow {
+	font-family: 'Orbitron', sans-serif;
+	text-shadow: 0 0 18px rgba(0,229,255,0.35);
+}
+
+.game-card {
+	background: linear-gradient(180deg, var(--card), rgba(18,26,43,0.7));
+	border: 1px solid var(--border);
+	box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+	transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.game-card:hover { transform: translateY(-4px); border-color: var(--neon); box-shadow: 0 14px 28px rgba(0,229,255,0.12); }
+.game-thumb { aspect-ratio: 16/9; object-fit: cover; border-bottom: 1px solid var(--border); }
+.game-hero { border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,229,255,0.08); }
+
+.btn-neon {
+	--bs-btn-color: #000;
+	--bs-btn-bg: var(--neon);
+	--bs-btn-border-color: var(--neon);
+	--bs-btn-hover-bg: #1af1ff;
+	--bs-btn-hover-border-color: #1af1ff;
+	--bs-btn-focus-shadow-rgb: 0,229,255;
+	--bs-btn-active-color: #000;
+	--bs-btn-active-bg: #12d6e2;
+	--bs-btn-active-border-color: #12d6e2;
+	--bs-btn-disabled-bg: var(--neon);
+	--bs-btn-disabled-border-color: var(--neon);
+}
+
+.form-control, .form-select { background-color: var(--bg-800); color: var(--text-100); border-color: var(--border); }
+.form-control::placeholder { color: #6b7fa5; }
+.form-select:focus, .form-control:focus { border-color: var(--neon); box-shadow: 0 0 0 .25rem rgba(0,229,255,.15); }
+
+.alert { background: rgba(18,26,43,0.8); border-color: var(--border); color: var(--text-100); }
+
