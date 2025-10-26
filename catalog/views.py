@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth import login
+from django.http import HttpResponse, Http404
+from django.conf import settings
+import os
 
 from .models import Game, Category, Favorite
 from .forms import SignUpForm
@@ -74,5 +77,32 @@ def logout_view(request):
 	from django.contrib.auth import logout
 	logout(request)
 	return redirect("home")
+
+
+def play_game(request, game_id: int):
+	"""Serve HTML game files directly"""
+	game = get_object_or_404(Game, id=game_id)
+	
+	# Check if game has a game file
+	if not game.game_file:
+		raise Http404("Game file not found")
+	
+	# Get the file path
+	file_path = os.path.join(settings.MEDIA_ROOT, str(game.game_file))
+	
+	# Check if file exists
+	if not os.path.exists(file_path):
+		raise Http404("Game file not found on disk")
+	
+	# Read and serve the file
+	try:
+		with open(file_path, 'r', encoding='utf-8') as file:
+			content = file.read()
+		
+		# Set appropriate content type
+		response = HttpResponse(content, content_type='text/html; charset=utf-8')
+		return response
+	except Exception as e:
+		raise Http404(f"Error reading game file: {str(e)}")
 
 # Create your views here.

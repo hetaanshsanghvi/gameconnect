@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Matching Game</title>
+    <style>
+        body {
+            background-color: #323232;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 3px solid #fff;
+            background-color: #505050;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculus Memory Match</h1>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        // Get the canvas element from the HTML
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Fixed Resolution
+        const SCREEN_WIDTH = 1920;
+        const SCREEN_HEIGHT = 720;
+        canvas.width = SCREEN_WIDTH;
+        canvas.height = SCREEN_HEIGHT;
+
+        // Colors
+        const WHITE = '#fff';
+        const BACKGROUND_COLOR = '#323232';
+        const YELLOW = '#ffff00';
+        const GREEN = '#00ff00';
+        const RED = '#ff0000';
+
+        // Card Setup
+        const CARD_WIDTH = 200;
+        const CARD_HEIGHT = 100;
+        const CARD_GAP = 20;
+        const ROWS = 4;
+        const COLS = 4;
+
+        // Integration Formula Pairs
+        const integration_pairs = [
+            ["∫ x dx", "x²/2 + C"],
+            ["∫ e^x dx", "e^x + C"],
+            ["∫ sin(x) dx", "-cos(x) + C"],
+            ["∫ cos(x) dx", "sin(x) + C"],
+            ["∫ 1/x dx", "ln|x| + C"],
+            ["∫ tan(x) dx", "ln|sec(x)| + C"],
+            ["∫ sec²(x) dx", "tan(x) + C"],
+            ["∫ cosec²(x) dx", "-cot(x) + C"],
+        ];
+
+        // Combine and shuffle cards
+        let cards = [...integration_pairs, ...integration_pairs.map(([a, b]) => [b, a])];
+        cards.sort(() => Math.random() - 0.5);
+
+        // Card positions
+        const start_x = (SCREEN_WIDTH - (COLS * CARD_WIDTH + (COLS - 1) * CARD_GAP)) / 2;
+        const start_y = (SCREEN_HEIGHT - (ROWS * CARD_HEIGHT + (ROWS - 1) * CARD_GAP)) / 2;
+
+        const cardPositions = [];
+        for (let row = 0; row < ROWS; row++) {
+            for (let col = 0; col < COLS; col++) {
+                cardPositions.push({
+                    x: start_x + col * (CARD_WIDTH + CARD_GAP),
+                    y: start_y + row * (CARD_HEIGHT + CARD_GAP),
+                    width: CARD_WIDTH,
+                    height: CARD_HEIGHT
+                });
+            }
+        }
+
+        // Game state
+        let flippedCards = [];
+        let matchedCards = new Set();
+        let gameWon = false;
+        let allowClick = true;
+
+        // Sounds (These files must be in the same folder as this HTML file)
+        const clickSound = new Audio('click.wav');
+        const successSound = new Audio('success.wav');
+
+        // Drawing function
+        function drawCards() {
+            ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            ctx.fillStyle = BACKGROUND_COLOR;
+            ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            cardPositions.forEach((pos, i) => {
+                let isFlipped = flippedCards.includes(i);
+                let isMatched = matchedCards.has(i);
+
+                // Draw card background
+                ctx.fillStyle = isMatched ? GREEN : (isFlipped ? WHITE : RED);
+                ctx.fillRect(pos.x, pos.y, pos.width, pos.height);
+
+                // Draw border
+                ctx.strokeStyle = WHITE;
+                ctx.lineWidth = 3;
+                ctx.strokeRect(pos.x, pos.y, pos.width, pos.height);
+
+                // Draw text
+                if (isFlipped || isMatched) {
+                    ctx.fillStyle = '#000';
+                    const cardText = cards[i][0];
+
+                    // Dynamic Font Size Adjustment
+                    let fontSize = 36;
+                    ctx.font = `${fontSize}px Arial`;
+
+                    while (ctx.measureText(cardText).width > (pos.width - 20) && fontSize > 10) {
+                        fontSize -= 1;
+                        ctx.font = `${fontSize}px Arial`;
+                    }
+                    ctx.fillText(cardText, pos.x + pos.width / 2, pos.y + pos.height / 2);
+                }
+            });
+
+            // Draw win text if the game is won
+            if (gameWon) {
+                ctx.fillStyle = YELLOW;
+                ctx.font = '72px Arial';
+                ctx.fillText("You Won! Level Complete!", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+            }
+        }
+
+        // Handle clicks
+        canvas.addEventListener('click', (event) => {
+            if (!allowClick || gameWon) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            for (let i = 0; i < cardPositions.length; i++) {
+                const card = cardPositions[i];
+                if (mouseX > card.x && mouseX < card.x + card.width && mouseY > card.y && mouseY < card.y + card.height) {
+                    handleCardFlip(i);
+                    break;
+                }
+            }
+        });
+
+        function handleCardFlip(index) {
+            if (matchedCards.has(index) || flippedCards.includes(index) || flippedCards.length >= 2) {
+                return;
+            }
+
+            flippedCards.push(index);
+            clickSound.play();
+            drawCards();
+
+            if (flippedCards.length === 2) {
+                allowClick = false;
+                setTimeout(checkForMatch, 1000);
+            }
+        }
+
+        function checkForMatch() {
+            const [index1, index2] = flippedCards;
+            const card1 = cards[index1];
+            const card2 = cards[index2];
+
+            if (card1[1] === card2[0] && card2[1] === card1[0]) {
+                matchedCards.add(index1);
+                matchedCards.add(index2);
+            }
+
+            flippedCards = [];
+            drawCards();
+            allowClick = true;
+            checkWinCondition();
+        }
+
+        function checkWinCondition() {
+            if (matchedCards.size === cards.length) {
+                gameWon = true;
+                drawCards();
+                successSound.play();
+            }
+        }
+
+        // Initial game start
+        drawCards();
+    </script>
+</body>
+</html>

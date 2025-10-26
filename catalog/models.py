@@ -15,7 +15,8 @@ class Game(models.Model):
 	thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 	tags = models.CharField(max_length=255, blank=True, help_text="Comma-separated tags")
-	external_url = models.URLField(max_length=255)
+	external_url = models.URLField(max_length=255, blank=True, null=True, help_text="External game URL")
+	game_file = models.FileField(upload_to='games/', blank=True, null=True, help_text="Upload HTML game file")
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self) -> str:

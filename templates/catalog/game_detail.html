@@ -20,7 +20,11 @@
 	</div>
 	<div class="col-md-4">
 		<div class="d-grid gap-2 sticky-top" style="top: 90px;">
-			<a href="{{ game.external_url }}" target="_blank" class="btn btn-neon btn-lg">Play Now</a>
+			{% if game.game_file %}
+				<a href="{% url 'catalog:play_game' game.id %}" class="btn btn-neon btn-lg">Play Game</a>
+			{% elif game.external_url %}
+				<a href="{{ game.external_url }}" target="_blank" class="btn btn-neon btn-lg">Play Now</a>
+			{% endif %}
 			{% if user.is_authenticated %}
 				<form action="{% url 'catalog:toggle_favorite' game.id %}" method="post">
 					{% csrf_token %}

@@ -36,7 +36,11 @@
 				<p class="card-text text-muted">{{ game.description|truncatechars:120 }}</p>
 				<div class="mt-auto d-flex gap-2">
 					<a href="{% url 'catalog:game_detail' game.id %}" class="btn btn-neon">View Details</a>
-					<a href="{{ game.external_url }}" target="_blank" class="btn btn-outline-light">Play</a>
+					{% if game.game_file %}
+						<a href="{% url 'catalog:play_game' game.id %}" class="btn btn-outline-light">Play</a>
+					{% elif game.external_url %}
+						<a href="{{ game.external_url }}" target="_blank" class="btn btn-outline-light">Play</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
