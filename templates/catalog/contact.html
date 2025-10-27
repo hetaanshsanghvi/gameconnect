@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-4 heading-glow">Contact Us</h1>
+
+<div class="row">
+	<div class="col-md-6 mb-4">
+		<h3>Get in Touch</h3>
+		<p>We'd love to hear from you! Whether you have questions, suggestions, or just want to say hello, we're here to help.</p>
+		
+		<div class="card mb-3 game-card">
+			<div class="card-body">
+				<h5 class="card-title">📧 Email</h5>
+				<p class="card-text mb-0">support@gamehub.com</p>
+			</div>
+		</div>
+		
+		<div class="card mb-3 game-card">
+			<div class="card-body">
+				<h5 class="card-title">⏰ Response Time</h5>
+				<p class="card-text mb-0">We typically respond within 24 hours</p>
+			</div>
+		</div>
+		
+		<div class="card mb-3 game-card">
+			<div class="card-body">
+				<h5 class="card-title">🌐 Social Media</h5>
+				<div class="d-flex gap-2">
+					<a href="#" class="btn btn-outline-light btn-sm">Twitter</a>
+					<a href="#" class="btn btn-outline-light btn-sm">Discord</a>
+					<a href="#" class="btn btn-outline-light btn-sm">Reddit</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<h3>Send us a Message</h3>
+		<form>
+			<div class="mb-3">
+				<label for="name" class="form-label">Name</label>
+				<input type="text" class="form-control" id="name" placeholder="Your name">
+			</div>
+			
+			<div class="mb-3">
+				<label for="email" class="form-label">Email</label>
+				<input type="email" class="form-control" id="email" placeholder="your.email@example.com">
+			</div>
+			
+			<div class="mb-3">
+				<label for="subject" class="form-label">Subject</label>
+				<select class="form-select" id="subject">
+					<option selected>Choose a topic...</option>
+					<option value="general">General Inquiry</option>
+					<option value="bug">Bug Report</option>
+					<option value="feature">Feature Request</option>
+					<option value="game">Game Submission</option>
+					<option value="support">Technical Support</option>
+					<option value="other">Other</option>
+				</select>
+			</div>
+			
+			<div class="mb-3">
+				<label for="message" class="form-label">Message</label>
+				<textarea class="form-control" id="message" rows="5" placeholder="Tell us what's on your mind..."></textarea>
+			</div>
+			
+			<div class="d-grid">
+				<button type="submit" class="btn btn-neon">
+					📤 Send Message
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<hr class="my-4">
+
+<div class="row">
+	<div class="col-md-4 mb-3">
+		<div class="card h-100 game-card">
+			<div class="card-body text-center">
+				<h5 class="card-title">❓ FAQ</h5>
+				<p class="card-text">Check our frequently asked questions for quick answers.</p>
+				<a href="#" class="btn btn-outline-light btn-sm">View FAQ</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4 mb-3">
+		<div class="card h-100 game-card">
+			<div class="card-body text-center">
+				<h5 class="card-title">🐛 Report Bug</h5>
+				<p class="card-text">Found a bug? Help us improve by reporting it.</p>
+				<a href="#" class="btn btn-outline-light btn-sm">Report Bug</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4 mb-3">
+		<div class="card h-100 game-card">
+			<div class="card-body text-center">
+				<h5 class="card-title">💡 Suggest Feature</h5>
+				<p class="card-text">Have an idea? We'd love to hear your suggestions.</p>
+				<a href="#" class="btn btn-outline-light btn-sm">Suggest Feature</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

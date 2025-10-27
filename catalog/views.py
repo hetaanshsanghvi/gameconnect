@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth import login
 from django.http import HttpResponse, Http404
 from django.conf import settings
+from django.core.paginator import Paginator
 import os
 
 from .models import Game, Category, Favorite
@@ -14,20 +15,37 @@ from .forms import SignUpForm
 def home(request):
 	query = request.GET.get("q", "").strip()
 	category_id = request.GET.get("category")
-	sort = request.GET.get("sort", "newest")
+	sort = request.GET.get("sort", "id")
 
-	games = Game.objects.all()
+	# Start with all games ordered by ID (ascending by default)
+	games = Game.objects.all().order_by("id")
+	
+	# Apply search filter
 	if query:
 		games = games.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(tags__icontains=query))
+	
+	# Apply category filter
 	if category_id:
 		games = games.filter(category_id=category_id)
+	
+	# Apply sorting
 	if sort == "newest":
 		games = games.order_by("-created_at")
+	elif sort == "id_desc":
+		games = games.order_by("-id")
+	else:
+		games = games.order_by("id")  # Default: ascending by ID
+
+	# Pagination: 16 games per page
+	paginator = Paginator(games, 16)
+	page_number = request.GET.get("page")
+	page_obj = paginator.get_page(page_number)
 
 	categories = Category.objects.all().order_by("name")
 	context = {
-		"games": games,
+		"page_obj": page_obj,
 		"categories": categories,
+		"category_id": category_id,
 		"selected_category": int(category_id) if category_id else None,
 		"query": query,
 		"sort": sort,
@@ -77,6 +95,16 @@ def logout_view(request):
 	from django.contrib.auth import logout
 	logout(request)
 	return redirect("home")
+
+
+def about(request):
+	"""About page view"""
+	return render(request, "catalog/about.html")
+
+
+def contact(request):
+	"""Contact us page view"""
+	return render(request, "catalog/contact.html")
 
 
 def play_game(request, game_id: int):

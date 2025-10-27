@@ -14,6 +14,9 @@ class GameAdmin(admin.ModelAdmin):
 	list_filter = ("category",)
 	search_fields = ("title", "tags")
 	fields = ("title", "description", "thumbnail", "category", "tags", "external_url", "game_file")
+	list_editable = ("category",)
+	# Default ascending order by ID
+	ordering = ("id",)
 	
 	def has_game_file(self, obj):
 		return bool(obj.game_file)

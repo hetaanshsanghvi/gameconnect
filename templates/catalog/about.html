@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-4 heading-glow">About GameHub</h1>
+
+<div class="row mb-4">
+	<div class="col-md-6 mb-3">
+		<img src="{% static 'img/logo.svg' %}" alt="GameHub Logo" class="img-fluid rounded" style="max-height: 200px;">
+	</div>
+	<div class="col-md-6">
+		<h3>Welcome to GameHub</h3>
+		<p class="lead">Your ultimate destination for discovering and playing amazing games!</p>
+	</div>
+</div>
+
+<div class="mb-4">
+	<h3>Our Mission</h3>
+	<p>GameHub is designed to bring gamers together by providing a centralized platform where you can discover, play, and share your favorite games. We believe that gaming should be accessible, fun, and social.</p>
+</div>
+
+<div class="mb-4">
+	<h3>What We Offer</h3>
+	<div class="row">
+		<div class="col-md-6 mb-3">
+			<div class="card h-100 game-card">
+				<div class="card-body">
+					<h5 class="card-title">🎮 Game Discovery</h5>
+					<p class="card-text">Browse through our extensive collection of games across various categories and genres.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 mb-3">
+			<div class="card h-100 game-card">
+				<div class="card-body">
+					<h5 class="card-title">❤️ Favorites</h5>
+					<p class="card-text">Save your favorite games and easily access them whenever you want to play.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 mb-3">
+			<div class="card h-100 game-card">
+				<div class="card-body">
+					<h5 class="card-title">🔍 Smart Search</h5>
+					<p class="card-text">Find games quickly with our powerful search and filtering system.</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 mb-3">
+			<div class="card h-100 game-card">
+				<div class="card-body">
+					<h5 class="card-title">👥 Community</h5>
+					<p class="card-text">Join our growing community of gamers and share your gaming experiences.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="mb-4">
+	<h3>Our Story</h3>
+	<p>GameHub was born from a passion for gaming and the desire to create a platform that makes game discovery effortless. We understand that finding the right game can be overwhelming with so many options available, so we've created a curated experience that helps you find games you'll love.</p>
+	<p>Whether you're a casual gamer looking for a quick distraction or a hardcore gamer seeking your next challenge, GameHub has something for everyone.</p>
+</div>
+
+<div class="text-center mt-4">
+	<h3>Ready to Start Gaming?</h3>
+	<div class="d-flex gap-2 justify-content-center">
+		<a href="/" class="btn btn-neon">Browse Games</a>
+		<a href="/accounts/signup/" class="btn btn-outline-light">Join Our Community</a>
+	</div>
+</div>
+{% endblock %}
